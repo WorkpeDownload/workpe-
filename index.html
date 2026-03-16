@@ -3,290 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workpe - Final Stable Pro</title>
+    <title>Workpe - Download Center</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0d1b2a; margin: 0; color: white; user-select: none; }
-        
-        #netLock { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0d1b2a; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-
-        /* Login Interface */
-        #loginPage { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; justify-content: center; align-items: center; }
-        .login-box { background: white; color: black; width: 85%; border-radius: 12px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .login-box img { width: 30px; display: block; margin: 0 auto 10px; }
-        .acc-row { display: flex; align-items: center; padding: 12px 0; border-top: 1px solid #eee; cursor: pointer; }
-        .acc-avatar { width: 35px; height: 35px; border-radius: 50%; background: #1a73e8; color: white; display: flex; justify-content: center; align-items: center; font-weight: bold; margin-right: 15px; }
-
-        .page { display: none; padding: 15px; min-height: 100vh; padding-bottom: 80px; }
-        .active-page { display: block; }
-
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #1b263b; border-bottom: 1px solid #415a77; position: sticky; top: 0; z-index: 100; }
-        .coin-box { background: #f39c12; color: black; padding: 5px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-
-        /* Home Grid */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-        .card { background: #1b263b; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #415a77; position: relative; }
-        .full-btn { grid-column: span 2; display: flex; align-items: center; justify-content: center; background: #f39c12; color: black; font-weight: bold; border: none; height: 55px; border-radius: 12px; margin-top: 5px; cursor: pointer; }
-        
-        .pay-title { color: #00b4d8; font-weight: bold; margin: 15px 0 10px 5px; font-size: 16px; text-transform: uppercase; border-bottom: 1px solid #415a77; padding-bottom: 5px;}
-        .wallet-item { background: white; color: black; border-radius: 10px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid #1a73e8; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .wallet-text b { font-size: 16px; color: #1b263b; display: block; }
-        .wallet-text small { color: #5f6368; }
-        .redeem-btn { background: #1a73e8; color: white; border: none; padding: 10px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-
-        .footer { position: fixed; bottom: 0; width: 100%; background: #1b263b; display: flex; justify-content: space-around; padding: 10px; border-top: 1px solid #415a77; }
-        .nav-item { color: #778da9; cursor: pointer; font-size: 11px; text-align: center; }
-        
-        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin: 10px 0; outline: none; color: black;}
-        .btn-main { background: #1a73e8; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .hist-item { background: #1b263b; padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 1px solid #415a77; display: flex; justify-content: space-between; align-items: center; }
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        img {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0px 0px 20px rgba(0, 132, 255, 0.5);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #aaaaaa;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background-color: #0084ff;
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
-<body onoffline="checkNet()" ononline="checkNet()">
+<body onload="startDownload()">
 
-<div id="netLock"><h1>No Internet</h1><p>Workpe requires an active internet connection.</p></div>
-
-<div id="loginPage">
-    <div class="login-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
-        <h3 style="margin: 0; text-align: center;">Choose an account</h3>
-        <div class="acc-row" onclick="doLogin('Ranajit')">
-            <div class="acc-avatar">R</div>
-            <div><b>Ranajit</b><br><small>r39605171@gmail.com</small></div>
-        </div>
-    </div>
-</div>
-
-<div id="homePage" class="page">
-    <div class="header"><b>WORKPE</b><div class="coin-box" onclick="showP('coinHistoryPage')">🪙 <span id="balance">0</span></div></div>
-    <div class="grid">
-        <div class="card" onclick="openTask('math', 30)"><h3>Math Quiz</h3><p id="mL">Limit: 30</p></div>
-        <div class="card" onclick="openTask('alpha', 20)"><h3>Alpha Quiz</h3><p id="aL">Limit: 20</p></div>
-        <div class="card" onclick="openTask('watch', 30)"><h3>Watch Ads</h3><p id="wL">Limit: 30</p></div>
-        <div class="card" onclick="showP('promoPage')"><h3>Promo Code</h3><p>Enter Code</p></div>
-        <div class="full-btn" onclick="showP('dailyPage')">🎁 DAILY BONUS (100 Coins)</div>
-        <div class="full-btn" style="background:#00b4d8; color:white" onclick="showP('referPage')">👥 REFER & EARN (200 Coins)</div>
-    </div>
-    <div class="btn-main" style="margin-top:20px; background:#0088cc;" onclick="joinTelegram()">📢 Join Telegram</div>
-</div>
-
-<div id="walletPage" class="page">
-    <div class="header"><b>Redeem Wallet</b></div>
-    <div style="padding:10px">
-        <div class="pay-title">Google Play</div>
-        <div class="wallet-item">
-            <div class="wallet-text"><b>Google Play ₹10</b><small>2000 Coins</small></div>
-            <button class="redeem-btn" onclick="redeem('Google ₹10', 2000)">2000</button>
-        </div>
-        <div class="wallet-item">
-            <div class="wallet-text"><b>Google Play ₹30</b><small>5500 Coins</small></div>
-            <button class="redeem-btn" onclick="redeem('Google ₹30', 5500)">5500</button>
-        </div>
-
-        <div class="pay-title">UPI Cash</div>
-        <div class="wallet-item">
-            <div class="wallet-text"><b>UPI Cash ₹10</b><small>2000 Coins</small></div>
-            <button class="redeem-btn" onclick="redeem('UPI ₹10', 2000)">2000</button>
-        </div>
-        <div class="wallet-item">
-            <div class="wallet-text"><b>UPI Cash ₹30</b><small>5500 Coins</small></div>
-            <button class="redeem-btn" onclick="redeem('UPI ₹30', 5500)">5500</button>
-        </div>
-
-        <div class="pay-title">Amazon Pay</div>
-        <div class="wallet-item">
-            <div class="wallet-text"><b>Amazon ₹10</b><small>2000 Coins</small></div>
-            <button class="redeem-btn" onclick="redeem('Amazon ₹10', 2000)">2000</button>
-        </div>
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_G_Logo.svg" alt="Workpe Logo">
         
-        <button class="btn-main" style="margin-top:20px; background:#00b4d8" onclick="showP('payHistoryPage')">📜 Payment History</button>
+        <h1>Workpe Application</h1>
+        <p>Your download will start automatically in 5 seconds...</p>
+        
+        <a href="Workpe (4).apk" class="btn">Download Now</a>
     </div>
-</div>
 
-<div id="referPage" class="page">
-    <div class="header"><span onclick="showP('homePage')">⬅ Back</span><b>Refer & Earn</b></div>
-    <div style="text-align:center; padding:30px">
-        <h3>Refer Friends & Get 200 Coins</h3>
-        <p>Your App Invite Link:</p>
-        <div id="refLinkText" style="font-size:14px; background:#1b263b; padding:10px; border-radius:8px; margin-bottom:10px; border:1px solid #415a77; word-break: break-all;">https://workpe-official.github.io/app</div>
-        <button class="btn-main" style="background:#f39c12; margin-bottom:15px" onclick="copyRefLink()">📋 Copy Link</button>
-        <button class="btn-main" style="background:#25d366; margin-bottom:10px" onclick="shareWA()">WhatsApp Share</button>
-        <button class="btn-main" style="background:#0088cc" onclick="shareTG()">Telegram Share</button>
-    </div>
-</div>
-
-<div id="promoPage" class="page">
-    <div class="header"><span onclick="showP('homePage')">⬅ Back</span><b>Promo Code</b></div>
-    <div style="padding:40px; text-align:center;">
-        <input type="text" id="pCodeInput" placeholder="Enter Promo Code">
-        <button class="btn-main" onclick="claimPromo()">Claim 50 Coins</button>
-    </div>
-</div>
-<div id="coinHistoryPage" class="page">
-    <div class="header"><span onclick="showP('homePage')">⬅ Back</span><b>Coin History</b></div>
-    <div id="cHistList" style="padding:10px"></div>
-</div>
-<div id="payHistoryPage" class="page">
-    <div class="header"><span onclick="showP('walletPage')">⬅ Back</span><b>Payment History</b></div>
-    <div id="pHistList" style="padding:10px"></div>
-</div>
-<div id="taskPage" class="page">
-    <div class="header"><span onclick="showP('homePage')">⬅ Back</span><b id="tTitle">Task</b></div>
-    <div style="background:white; color:black; padding:40px; border-radius:20px; text-align:center; margin-top:20px">
-        <h1 id="qText">?</h1>
-        <div id="ansWrap"><input type="text" id="ansIn" style="width:100%; padding:10px; margin-bottom:15px"></div>
-        <button class="btn-main" onclick="submitTask()">Submit</button>
-    </div>
-</div>
-<div id="dailyPage" class="page">
-    <div class="header"><span onclick="showP('homePage')">⬅ Back</span><b>Daily Bonus</b></div>
-    <div style="text-align:center; padding:30px">
-        <h3>Claim 100 Coins</h3>
-        <p>Install app and use for 2 mins to get bonus.</p>
-        <button class="btn-main" onclick="claimDaily()">Claim Bonus</button>
-    </div>
-</div>
-
-<div class="footer">
-    <div class="nav-item" onclick="showP('homePage')">🏠<br>Home</div>
-    <div class="nav-item" onclick="showP('walletPage')">💳<br>Wallet</div>
-    <div class="nav-item" onclick="contactSupport()">🎧<br>Support</div>
-</div>
-
-<script>
-    // গুরুত্বপূর্ণ: এখানে আপনার সঠিক টেলিগ্রাম এবং অ্যাপ লিংক দিন।
-    const APP_LINK = "https://workpe-official.github.io/app"; 
-    const TG_LINK = "https://t.me/Workpe_Official";
-    const SUPPORT_EMAIL = "support@workpe.com";
-
-    let coins = parseInt(localStorage.getItem('w_coins')) || 0;
-    let counts = JSON.parse(localStorage.getItem('w_counts')) || { math: 30, alpha: 20, watch: 30 };
-    let cHist = JSON.parse(localStorage.getItem('w_cHist')) || [];
-    let pHist = JSON.parse(localStorage.getItem('w_pHist')) || [];
-    let curT, curAns;
-    const promos = ["GIFT50", "FREE50", "CASH50", "WORK50"];
-
-    function checkNet() {
-        if(!navigator.onLine) document.getElementById('netLock').style.display='flex';
-        else document.getElementById('netLock').style.display='none';
-    }
-
-    function doLogin(name) {
-        localStorage.setItem('w_user', name);
-        document.getElementById('loginPage').style.display='none';
-        showP('homePage');
-    }
-
-    function showP(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-        document.getElementById(id).classList.add('active-page');
-        if(id === 'coinHistoryPage') loadCHist();
-        if(id === 'payHistoryPage') loadPHist();
-    }
-
-    function joinTelegram() { 
-        // "tg://" এর বদলে সরাসরি "https://" ব্যবহার করলে ব্রাউজারে এরর আসবে না
-        window.open(TG_LINK, "_blank"); 
-    }
-
-    function contactSupport() {
-        window.location.href = "mailto:" + SUPPORT_EMAIL;
-    }
-
-    function copyRefLink() {
-        navigator.clipboard.writeText(APP_LINK);
-        alert("Link Copied!");
-    }
-
-    function shareWA() {
-        let msg = encodeURIComponent("Download Workpe App and earn money easily! Join using my link: " + APP_LINK);
-        window.open("https://api.whatsapp.com/send?text=" + msg);
-    }
-
-    function shareTG() {
-        let msg = encodeURIComponent("Download Workpe App and earn money! Link: ");
-        window.open("https://t.me/share/url?url=" + encodeURIComponent(APP_LINK) + "&text=" + msg);
-    }
-
-    function claimPromo() {
-        let code = document.getElementById('pCodeInput').value.toUpperCase();
-        let used = JSON.parse(localStorage.getItem('used_p')) || [];
-        if(promos.includes(code) && !used.includes(code)) {
-            used.push(code); localStorage.setItem('used_p', JSON.stringify(used));
-            addCoins(50, "Promo Code " + code); alert("50 Coins added!");
-            showP('homePage');
-        } else { alert("Invalid or Already used!"); }
-    }
-
-    function openTask(type, max) {
-        let today = new Date().toLocaleDateString();
-        if(localStorage.getItem(type+'_date') !== today) { counts[type] = max; localStorage.setItem(type+'_date', today); }
-        if(counts[type] <= 0) return alert("Wait 24h!");
-        curT = type;
-        document.getElementById('ansWrap').style.display = (type==='watch') ? 'none' : 'block';
-        if(type === 'math') {
-            let n1 = Math.floor(Math.random()*10), n2 = Math.floor(Math.random()*10);
-            curAns = n1 + n2; document.getElementById('qText').innerText = n1 + " + " + n2 + " = ?";
-        } else if(type === 'alpha') {
-            let t = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; curAns = t[Math.floor(Math.random()*26)];
-            document.getElementById('qText').innerText = "Type: " + curAns;
-        } else { document.getElementById('qText').innerText = "Watch Ad Video"; }
-        showP('taskPage');
-    }
-
-    function submitTask() {
-        if(curT !== 'watch' && document.getElementById('ansIn').value.toUpperCase() != curAns) return alert("Wrong!");
-        counts[curT]--;
-        addCoins(10, curT + " Task Reward");
-        document.getElementById('ansIn').value = "";
-        save(); showP('homePage');
-    }
-
-    function addCoins(amt, reason) { coins += amt; cHist.unshift({ reason: reason, amount: amt, date: new Date().toLocaleString() }); save(); }
-
-    function redeem(name, cost) {
-        if(coins < cost) return alert("Low Coins!");
-        let detail = prompt("Enter UPI/Gmail:");
-        if(detail) {
-            coins -= cost;
-            pHist.unshift({ title: name, detail: detail, date: new Date().toLocaleString(), status: "Pending" });
-            save(); alert("Success! Expect payment within 72h.");
+    <script>
+        function startDownload() {
+            setTimeout(function() {
+                window.location.href = 'Workpe (4).apk'; 
+            }, 5000);
         }
-    }
-
-    function claimDaily() {
-        let last = localStorage.getItem('last_daily');
-        if(last === new Date().toLocaleDateString()) return alert("Claimed today!");
-        addCoins(100, "Daily Bonus");
-        localStorage.setItem('last_daily', new Date().toLocaleDateString());
-        alert("100 Coins added!");
-    }
-
-    function loadCHist() {
-        document.getElementById('cHistList').innerHTML = cHist.map(i => `<div class="hist-item"><div><b>${i.reason}</b><br><small>${i.date}</small></div><div style="color:#2ecc71">+${i.amount}</div></div>`).join('');
-    }
-
-    function loadPHist() {
-        document.getElementById('pHistList').innerHTML = pHist.map(i => `<div class="hist-item"><div><b>${i.title}</b><br><small>${i.date}</small><br><small>${i.detail}</small></div><div style="color:#f39c12">${i.status}</div></div>`).join('');
-    }
-
-    function save() {
-        localStorage.setItem('w_coins', coins);
-        localStorage.setItem('w_counts', JSON.stringify(counts));
-        localStorage.setItem('w_cHist', JSON.stringify(cHist));
-        localStorage.setItem('w_pHist', JSON.stringify(pHist));
-        document.getElementById('balance').innerText = coins;
-        document.getElementById('mL').innerText = counts.math > 0 ? "Limit: " + counts.math : "24h Timer";
-        document.getElementById('aL').innerText = counts.alpha > 0 ? "Limit: " + counts.alpha : "24h Timer";
-        document.getElementById('wL').innerText = counts.watch > 0 ? "Limit: " + counts.watch : "24h Timer";
-    }
-
-    window.onload = () => { checkNet(); if(localStorage.getItem('w_user')) { document.getElementById('loginPage').style.display='none'; showP('homePage'); } save(); }
-</script>
+    </script>
 </body>
-<script>
-    window.onload = function() {
-        window.location.href = 'Workpe (4).apk';
-    };
-</script>
 </html>
